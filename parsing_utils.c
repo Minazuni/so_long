@@ -6,7 +6,7 @@
 /*   By: ko-mahon <ko-mahon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:03:28 by ko-mahon          #+#    #+#             */
-/*   Updated: 2025/07/31 13:06:15 by ko-mahon         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:28:37 by ko-mahon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ char	*read_and_join_lines(int fd)
 	joined = ft_strdup("");
 	if (!joined)
 		return (NULL);
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line)
 	{
 		joined = append_line(joined, line);
 		free(line);
 		if (!joined)
 			return (NULL);
+		line = get_next_line(fd);
 	}
 	return (joined);
 }
@@ -95,7 +97,3 @@ char	**read_map(char *filename, t_map *map)
 	map->grid = grid;
 	return (grid);
 }
-
-
-
-

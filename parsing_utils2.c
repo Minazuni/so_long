@@ -6,7 +6,7 @@
 /*   By: ko-mahon <ko-mahon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 13:04:28 by ko-mahon          #+#    #+#             */
-/*   Updated: 2025/07/31 13:05:00 by ko-mahon         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:26:50 by ko-mahon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 int	ft_countword(const char *str, char sep)
 {
-	int	count = 0;
-	int	in_word = 0;
+	int	count;
+	int	in_word;
 
+	count = 0;
+	in_word = 0;
 	while (*str)
 	{
 		if (*str != sep && !in_word)
@@ -30,6 +32,7 @@ int	ft_countword(const char *str, char sep)
 	}
 	return (count);
 }
+
 int	is_walled(char **map)
 {
 	int	i;

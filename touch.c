@@ -6,7 +6,7 @@
 /*   By: ko-mahon <ko-mahon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:20:45 by ko-mahon          #+#    #+#             */
-/*   Updated: 2025/07/03 13:00:01 by ko-mahon         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:26:32 by ko-mahon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,10 @@ int	can_move(t_map *map, int new_x, int new_y)
 	return (1);
 }
 
-int	handle_key(int keycode, void *param)
+int	process_movement(t_map *map, int new_x, int new_y)
 {
-	t_map	*map;
 	char	next_cell;
 
-	int x, y, new_x, new_y;
-	map = (t_map *)param;
-	x = map->player_x;
-	y = map->player_y;
-	new_x = x;
-	new_y = y;
-	if (keycode == 119) // W
-		new_y -= 1;
-	else if (keycode == 115) // S
-		new_y += 1;
-	else if (keycode == 97) // A
-		new_x -= 1;
-	else if (keycode == 100) // D
-		new_x += 1;
-	else if (keycode == 65307) // ESC
-		clean_exit(map, NULL, 0);
-	else
-		return (0);
-	if (!can_move(map, new_x, new_y))
-		return (0);
 	next_cell = map->grid[new_y][new_x];
 	if (next_cell == 'C')
 		map->collectible_count--;
@@ -56,12 +35,38 @@ int	handle_key(int keycode, void *param)
 	}
 	else if (next_cell == 'E')
 		return (0);
-	map->grid[y][x] = '0';
+	map->grid[map->player_y][map->player_x] = '0';
 	map->grid[new_y][new_x] = 'P';
 	map->player_x = new_x;
 	map->player_y = new_y;
 	map->move_count++;
 	ft_printf("Move count: %d\n", map->move_count);
 	display_map(map);
-	return (0);
+	return (1);
+}
+
+int	handle_key(int keycode, void *param)
+{
+	t_map	*map;
+	int		new_x;
+	int		new_y;
+
+	map = (t_map *)param;
+	new_x = map->player_x;
+	new_y = map->player_y;
+	if (keycode == 119)
+		new_y -= 1;
+	else if (keycode == 115)
+		new_y += 1;
+	else if (keycode == 97)
+		new_x -= 1;
+	else if (keycode == 100)
+		new_x += 1;
+	else if (keycode == 65307)
+		clean_exit(map, NULL, 0);
+	else
+		return (0);
+	if (!can_move(map, new_x, new_y))
+		return (0);
+	return (process_movement(map, new_x, new_y));
 }
